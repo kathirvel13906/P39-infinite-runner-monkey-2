@@ -29,11 +29,10 @@ function setup() {
   createCanvas(displayWidth, displayHeight);
   
   //creating jungle background
-  //jungle = createSprite(displayWidth,displayHeight-450,900,10);
-  //jungle.addImage(jungleImage);
-  //jungle.scale = 1.85;
-  //jungle.x = jungle.width/2;
-  //jungle.velocityX = -5;
+  jungle = createSprite(displayWidth,displayHeight-600,2700,10);
+  jungle.addImage(jungleImage);
+  jungle.scale = 2.8;
+  jungle.x = jungle.width/2;
   
   //creating monkey
   monkey = createSprite(80,displayHeight-80,20,20);
@@ -62,8 +61,8 @@ function setup() {
 
 function draw() {
   //giving background colour
-  background(jungleImage);
-  //background(255);
+  //background(jungleImage);
+  background(255);
   
   //making monkey collide with the ground
   monkey.collide(ground);
@@ -73,6 +72,8 @@ function draw() {
   
   if(gameState === 1) {
       box.visible = false;
+ 
+      jungle.velocityX = -5;
     
       //making the monkey jump after pressing space
       if(keyDown("space") && monkey.y >= displayHeight-130 || touches.length > 0) {
@@ -89,9 +90,9 @@ function draw() {
       }
     
       //making the infinite background
-      //if(jungle.x < 0) {
-        //jungle.x = jungle.width/2;
-      //}
+      if(jungle.x < 0) {
+        jungle.x = jungle.width/2;
+      }
     
       switch(score) {
           case 3: monkey.scale = 0.16;
@@ -143,12 +144,7 @@ function draw() {
         foodGroup.destroyEach();
       }
     
-      if(monkey.scale > 0.14 && obstacleGroup.isTouching(monkey)) {
-        monkey.scale = 0.14;
-        obstacleGroup.destroyEach();
-      }
-      else
-      if(monkey.scale === 0.14 && monkey.isTouching(obstacleGroup)) {
+      if(monkey.isTouching(obstacleGroup)) {
         gameState = 0;
       }
   } 
@@ -159,7 +155,7 @@ function draw() {
     //making the monkey and groung stop
     monkey.velocityY = 0;
     ground.velocityX = 0;
-    //jungle.velocityX = 0;
+    jungle.velocityX = 0;
     
      //set lifetime of the game objects so that they are never destroyed
      obstacleGroup.setLifetimeEach(-1);
